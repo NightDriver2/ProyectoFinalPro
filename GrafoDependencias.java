@@ -46,15 +46,15 @@ public class GrafoDependencias {
 
     public boolean esAsignable(Tarea tarea, Empleado empleado, Set<Integer> tareasCompletadas) {
         if (!tarea.getDepartamento().equalsIgnoreCase(empleado.getDepartamento())) {
-            System.out.println("El empleado " + empleado.getNombre() + " no pertenece al departamento de la tarea " + tarea.getNombre());
+            System.out.println("El empleado " + empleado.getNombre() + " no pertenece al departamento de la tarea " + tarea.getTitulo());
             return false;
         }
 
-        if (!dependenciasSatisfechas(tarea.getId(), tareasCompletadas)) {
-            System.out.println("La tarea " + tarea.getNombre() + " no puede ser asignada a " + empleado.getNombre() + " porque no se han completado todas las tareas previas.");
+        if (!depenciasSatisfechas(tarea.getId(), tareasCompletadas)) {
+            System.out.println("La tarea " + tarea.getTitulo() + " no puede ser asignada a " + empleado.getNombre() + " porque no se han completado todas las tareas previas.");
             return false;
         }
-        System.out.println("La tarea " + tarea.getNombre() + " puede ser asignada a " + empleado.getNombre());
+        System.out.println("La tarea " + tarea.getTitulo() + " puede ser asignada a " + empleado.getNombre());
         return true;
     }
 
@@ -88,7 +88,7 @@ public class GrafoDependencias {
     }
 
     public List<Integer> obtenerOrdenEjecucion() {
-        if (tieneCiclo()) {
+        if (tineCiclo()) {
             System.out.println("No se puede obtener un orden de ejecución debido a un ciclo en las dependencias.");
             return new ArrayList<>();
         }
