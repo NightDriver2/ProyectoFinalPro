@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-
         ArbolEmpleados arbolEmpleados = new ArbolEmpleados();
         GestorHash gestorHash = new GestorHash();
         ColaPrioridad colaPrioridad = new ColaPrioridad();
@@ -20,6 +19,7 @@ public class Main {
         int opcion = 0;
 
         while(opcion !=9) {
+            System.out.println();
             System.out.println("   SISTEMA DE GESTION DE TAREAS - PROYECTO FINAL   ");
             System.out.println(" --- CATALOGO DE EMPLEADOS ( ABB Y TABLA HASH ) ---");
             System.out.println("1. Registrar empleado");
@@ -51,20 +51,23 @@ public class Main {
 
                         Empleado emp = new Empleado(id, nombre, departamento);
                         arbolEmpleados.insertar(emp);
-                        gestorHash.insertar(emp);
-                        System.out.println("Empleado registrado exitosamente.");
+                        gestorHash.guardarEmpleado(emp);
+                        System.out.println("\nEmpleado registrado exitosamente.");
                     }
                     case 2 -> {
                         System.out.print("Ingresa el ID a buscar: ");
                         int id = Integer.parseInt(sc.nextLine());
                         Empleado emp = arbolEmpleados.buscar(id);
                         if (emp != null) {
-                            System.out.println("Empleado encontrado: " + emp);
+                            System.out.println("\nEmpleado encontrado: " + emp);
                         } else {
-                            System.out.println("No existe el empleado con el ID" + id);
+                            System.out.println("\nNo existe el empleado con el ID" + id);
                         }
                     }
-                    case 3 -> arbolEmpleados.mostrarInOrden();
+                    case 3 -> {
+                        System.out.println();
+                        arbolEmpleados.mostrarInOrden();
+                    }
                     case 4 -> {
                         System.out.print("ID de tarea: ");
                         int id = Integer.parseInt(sc.nextLine());
@@ -81,9 +84,9 @@ public class Main {
 
 
                         Tarea t = new Tarea(id, titulo, prioridad, fecha, horas, departamento);
-                        colaPrioridad.insertar(t);
+                        colaPrioridad.enqueue(t);
                         grafoDependencias.sincronizarTarea(t);
-                        System.out.println("Tarea registrada en la cola de prioridad y en el grafo.");
+                        System.out.println("\nTarea registrada en la cola de prioridad y en el grafo.");
                     }
                     case 5 -> {
                         System.out.print("ID de Tarea dependiente: ");
@@ -91,7 +94,8 @@ public class Main {
                         System.out.print("ID de Tarea previa requerida: ");
                         int idPrevia = Integer.parseInt(sc.nextLine());
 
-                        grafoDependencias.agregarDependencia(idDependiente, idPrevia);
+                        System.out.println();
+                        grafoDependencias.agregarDependecia(idDependiente, idPrevia);
                     }
                     case 6 -> {
                         System.out.print("ID de tarea a asignar: ");
@@ -101,8 +105,9 @@ public class Main {
 
 
                         Empleado emp = arbolEmpleados.buscar(idEmpleado);
-                        Tarea t = colaPrioridad.obtenerFrente();
+                        Tarea t = colaPrioridad.peek();
 
+                        System.out.println();
                         if (emp == null) {
                             System.out.println("Error: Empleado no encontrado.");
                         } else if (t == null) {
@@ -116,32 +121,41 @@ public class Main {
                         System.out.print("ID de Tarea completada: ");
                         int idTarea = Integer.parseInt(sc.nextLine());
                         tareasCompletadas.add(idTarea);
-                        System.out.println("Tarea #" + idTarea + " marcada como completada.");
+                        System.out.println("\nTarea #" + idTarea + " marcada como completada.");
                     }
                     case 8 -> {
                         System.out.println("\n--- MENU DE ARCHIVOS ---");
-                        System.out.println("1. GUardar empleado en disco");
+                        System.out.println("1. Guardar empleados en disco");
                         System.out.println("2. Cargar empleados desde disco");
                         System.out.print("Selecciona una subopcion: ");
                         int subOpcion = Integer.parseInt(sc.nextLine());
 
+                        System.out.println();
                         if (subOpcion == 1) {
                             gestorArchivos.guardarEmpleados("empleados.txt", gestorHash.obtenerTodos());
                         } else if (subOpcion == 2) {
-                            gestorHash.cargarEmpleados("empleados.txt", arbolEmpleados);
+                            int cargados = 0;
+                            for (Empleado emp : gestorArchivos.cargarEmpleados("empleados.txt")) {
+                                if (gestorHash.existeEmpleado(emp.getId())) {
+                                    continue; // evita duplicados si ya está en memoria
+                                }
+                                arbolEmpleados.insertar(emp);
+                                gestorHash.guardarEmpleado(emp);
+                                cargados++;
+                            }
+                            System.out.println(cargados + " empleado(s) cargado(s).");
                         } else {
                             System.out.println("Subopción no válida.");
                         }
-
                     }
-                    case 9 -> System.out.println("Cerrando el sistema.");
-                    default -> System.out.println("Opción no válida. Intente nuevamente.");
+                    case 9 -> System.out.println("\nCerrando el sistema.");
+                    default -> System.out.println("\nOpción no válida. Intente nuevamente.");
 
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Entrada no válida. Por favor, ingrese un número.");
+                System.out.println("\nEntrada no válida. Por favor, ingrese un número.");
             } catch (Exception e) {
-                System.out.println("Error en ejecución: " + e.getMessage());
+                System.out.println("\nError en ejecución: " + e.getMessage());
             }
         }
     }

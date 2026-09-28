@@ -52,9 +52,9 @@ public class ArbolEmpleados {
             return;
 
         } 
-        System.out.println(" --- Catalogo de empleados (In-Order por ID) ---");
+        System.out.println(" \n --- Catalogo de empleados (In-Order por ID) ---");
         inOrderRec(raiz);
-        System.out.println("--------------------------------------------------");
+        System.out.println("--------------------------------------------------\n\n");
     }
 
     private void inOrderRec(NodoEmpleado nodo) { 

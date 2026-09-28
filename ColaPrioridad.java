@@ -15,7 +15,6 @@ public class ColaPrioridad {
     private PriorityQueue<Tarea> cola;
 
     public ColaPrioridad() {
-        // Criterio de comparación según la Guía de la Fase II:
         // 1. Prioridad: menor valor int = mayor urgencia (1 es la más urgente)
         // 2. Fecha de entrega: la fecha más antigua/próxima va primero
         Comparator<Tarea> comparadorTareas = (t1, t2) -> {

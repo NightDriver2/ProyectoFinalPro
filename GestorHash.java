@@ -1,6 +1,8 @@
 package ProyectoFinalPro;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 public class GestorHash {
@@ -97,5 +99,9 @@ public class GestorHash {
 
     public HashMap<Integer, Empleado> getMapaEmpleado() {
         return mapaEmpleados;
+    }
+
+    public List<Empleado> obtenerTodos() {
+        return new ArrayList<>(mapaEmpleados.values());
     }
 }

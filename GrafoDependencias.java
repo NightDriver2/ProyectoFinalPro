@@ -19,7 +19,7 @@ public class GrafoDependencias {
 
             if (!grafo.get(idTarea).contains(idTareaPrevia)) {
                 grafo.get(idTarea).add(idTareaPrevia);
-                System.out.println("Dependencia agregada: Tarea " + idTarea + " depende de Tarea " + idTareaPrevia);
+                System.out.println("Dependencia agregada: Tarea " + idTarea + " depende de Tarea " + idTareaPrevia + "\n\n");
             }
         }
 

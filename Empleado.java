@@ -36,10 +36,10 @@ public class Empleado {
     // ------------------ Overrides ------------------
     @Override 
     public String toString() { 
-        return "\n ----- Empleado -----"
-        + "ID: " + id 
+        return "\n =================== Empleado ==================="
+        + "\n ID: " + id 
         + " | Nombre: " + nombre 
         + " | Depto: " + departamento
-        + "\n ---------------------"; 
+        + "\n ================================================\n"; 
     }
 }
