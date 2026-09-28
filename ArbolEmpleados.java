@@ -30,7 +30,7 @@ public class ArbolEmpleados {
     }
 
     public Empleado buscar(int id) { 
-        NodoEMpleado resultado = buscarRec(raiz, id);
+        NodoEmpleado resultado = buscarRec(raiz, id);
         return (resultado != null) ? resultado.empleado : null;
     }
 
