@@ -10,7 +10,6 @@ public class NodoEmpleado {
         this.empleado = empleado; 
         this.izquierdo = null; 
         this.derecho = null; 
-
     } 
 }
 
