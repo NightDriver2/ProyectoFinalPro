@@ -70,7 +70,7 @@ public class Tarea implements Comparable<Tarea>{
     
     @Override 
     public String toString() { 
-        return "\n ---------------------" +
+        return "\n ------ Tarea ------" +
             "[" + id + "] " 
             + titulo 
             + " | Prioridad: " + prioridad 
