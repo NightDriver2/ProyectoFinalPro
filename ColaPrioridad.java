@@ -1,45 +1,77 @@
-package ProyectoFinalPro; 
+package ProyectoFinalPro;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
 
+/**
+ * Estructura de Cola de Prioridades para la Fase II.
+ * Gestiona objetos 'Tarea' priorizando menor valor numérico de prioridad (1 :
+ * y desempate por la fecha de entrega más cercana.
+ */
 public class ColaPrioridad {
-    private PriorityQueue<Empleado> cola;
+
+    private PriorityQueue<Tarea> cola;
 
     public ColaPrioridad() {
-        // Comparator to order employees by their ID
-        Comparator<Empleado> comparator = new Comparator<Empleado>() {
-            @Override
-            public int compare(Empleado e1, Empleado e2) {
-                return Integer.compare(e1.getId(), e2.getId());
+        // Criterio de comparación según la Guía de la Fase II:
+        // 1. Prioridad: menor valor int = mayor urgencia (1 es la más urgente)
+        // 2. Fecha de entrega: la fecha más antigua/próxima va primero
+        Comparator<Tarea> comparadorTareas = (t1, t2) -> {
+            int compPrioridad = Integer.compare(t1.getPrioridad(), t2.getPrioridad());
+            if (compPrioridad != 0) {
+                return compPrioridad; // Si las prioridades son distintas, define el orden
             }
+            // Desempate por fecha de entrega
+            if (t1.getFechaEntrega() != null && t2.getFechaEntrega() != null) {
+                return t1.getFechaEntrega().compareTo(t2.getFechaEntrega());
+            }
+            return 0;
         };
-        cola = new PriorityQueue<>(comparator);
+
+        this.cola = new PriorityQueue<>(comparadorTareas);
     }
 
-    public void agregarEmpleado(Empleado empleado) {
-        cola.add(empleado);
-    }
-
-    public Empleado eliminarEmpleado() {
-        return cola.poll();
-    }
-
-    public boolean estaVacia() {
-        return cola.isEmpty();
-    }
-
-    public int obtenerTamaño() {
-        return cola.size();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Cola de Prioridad de Empleados:\n");
-        for (Empleado empleado : cola) {
-            sb.append(empleado.toString()).append("\n");
+    // Insertar una tarea en la cola de prioridades
+    public void enqueue(Tarea tarea) {
+        if (tarea != null) {
+            this.cola.add(tarea);
         }
-        return sb.toString();
+    }
+
+    // Extraer y retornar la tarea con mayor urgencia
+    public Tarea dequeue() {
+        return this.cola.poll();
+    }
+
+    // Consultar la tarea más urgente sin eliminarla
+    public Tarea peek() {
+        return this.cola.peek();
+    }
+
+    // Verificar si la cola está vacía
+    public boolean isEmpty() {
+        return this.cola.isEmpty();
+    }
+
+    // Cantidad de tareas en la cola
+    public int size() {
+        return this.cola.size();
+    }
+
+    // Obtener una copia de todas las tareas en cola (útil para la Vista Consola)
+    public List<Tarea> getAll() {
+        return new ArrayList<>(this.cola);
+    }
+
+    // Limpiar la cola de prioridades
+    public void clear() {
+        this.cola.clear();
     }
 }
+
+
+
+
+
