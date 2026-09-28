@@ -1,5 +1,6 @@
 package ProyectoFinalPro;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +8,12 @@ public class Tarea implements Comparable<Tarea>{
     int id;
     String titulo;
     int prioridad;
-    String fechaEntrega;
+    LocalDate fechaEntrega;
     double tiempoEstimado;
     String departamento;
     List<Integer> dependencias;
 
-    public Tarea(int id, String titulo, int prioridad, String fechaEntrega, double tiempoEstimado, String departamento) { 
+    public Tarea(int id, String titulo, int prioridad, LocalDate fechaEntrega, double tiempoEstimado, String departamento) { 
         this.id = id; 
         this.titulo = titulo; 
         this.prioridad = prioridad; 
@@ -44,7 +45,7 @@ public class Tarea implements Comparable<Tarea>{
         return prioridad; 
     } 
     
-    public String getFechaEntrega() { 
+    public LocalDate getFechaEntrega() { 
         return fechaEntrega; 
     } 
     

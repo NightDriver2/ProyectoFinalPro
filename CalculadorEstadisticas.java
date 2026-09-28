@@ -86,7 +86,7 @@ public class CalculadorEstadisticas {
         };
     }
 
-    // ----------------------- REPORTE ALN -----------------------
+    // ----------------------- REPORTE ALBBB -----------------------
     public void mostrarReporteDistribucion(List<Tarea> tareas) {
         System.out.println("\n------- DISTRIBUCIÓN DE TAREAS -------");
         AsignacionCarga[] distribucion = optimizarDistribucion(tareas);
