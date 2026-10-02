@@ -1,13 +1,11 @@
 package ProyectoFinalPro;
 
-
 public class ArbolEmpleados { 
     private NodoEmpleado raiz;
 
     public ArbolEmpleados() { 
         this.raiz = null; 
     }
-
 
     public void insertar(Empleado emp) { 
         raiz = insertarRec(raiz, emp); 
@@ -22,7 +20,7 @@ public class ArbolEmpleados {
             nodo.izquierdo = insertarRec(nodo.izquierdo, emp); 
         } else if (emp.getId() > nodo.empleado.getId()) { 
             nodo.derecho = insertarRec(nodo.derecho, emp); 
-        } else{
+        } else {
             System.out.println("Ya existe un empleado registrado con el ID: " + emp.getId());
         }
 
@@ -45,12 +43,10 @@ public class ArbolEmpleados {
         return buscarRec(nodo.derecho, id); 
     }
 
-
     public void mostrarInOrden() { 
         if (raiz == null) { 
             System.out.println("El árbol está vacío."); 
             return;
-
         } 
         System.out.println(" \n --- Catalogo de empleados (In-Order por ID) ---");
         inOrderRec(raiz);
@@ -65,12 +61,13 @@ public class ArbolEmpleados {
         } 
     }
 
-    private void eliminar(int id) { 
+    // Cambiado a public para que se pueda invocar desde el sistema/menú si lo requieres
+    public void eliminar(int id) { 
         raiz = eliminarRec(raiz, id); 
     }
 
     private NodoEmpleado eliminarRec(NodoEmpleado nodo, int id) {
-        if ( nodo == null) {
+        if (nodo == null) {
             System.out.println("No se encontró un empleado con el ID: " + id);
             return null;
         }
@@ -94,5 +91,4 @@ public class ArbolEmpleados {
         } 
         return nodo; 
     }
-
 }

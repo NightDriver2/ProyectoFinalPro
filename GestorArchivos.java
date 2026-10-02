@@ -12,81 +12,92 @@ import java.util.List;
 
 public class GestorArchivos {
 
+    private static final String CARPETA_DATOS = "data";
+
     // =========================================================================
-    // 1. GESTIÓN DE TAREAS (Persistencia en archivo .txt / .csv)
+    // 1. GESTIÓN DE TAREAS
     // =========================================================================
 
-    /**
-     * Guarda la lista de tareas en un archivo de texto en formato CSV:
-     * id,titulo,prioridad,fechaEntrega,tiempoEstimado,departamento
-     */
-    public static void guardarTareas(ArrayList<Tarea> listaTareas, String rutaArchivo) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo))) {
+    public void guardarTareas(String nombreArchivo, List<Tarea> listaTareas) {
+        File carpeta = new File(CARPETA_DATOS);
+        if (!carpeta.exists()) {
+            carpeta.mkdirs();
+        }
+
+        File archivo = new File(carpeta, nombreArchivo);
+
+        if (listaTareas.isEmpty()) {
+            System.out.println("No hay tareas para guardar.");
+            return;
+        }
+
+        // Usamos punto y coma (;) como separador para evitar conflictos si el título tiene comas
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
             for (Tarea t : listaTareas) {
-                String linea = String.format("%d,%s,%d,%s,%.2f,%s",
+                String linea = String.format("%d;%s;%d;%s;%.2f;%s",
                         t.getId(),
                         t.getTitulo(),
                         t.getPrioridad(),
-                        t.getFechaEntrega().toString(),
+                        t.getFechaEntrega() != null ? t.getFechaEntrega().toString() : "",
                         t.getTiempoEstimado(),
                         t.getDepartamento());
                 writer.write(linea);
                 writer.newLine();
             }
-            System.out.println("✓ Tareas guardadas exitosamente en: " + rutaArchivo);
+            System.out.println("✓ Tareas guardadas exitosamente en: " + archivo.getAbsolutePath());
         } catch (IOException e) {
             System.out.println("X Error al guardar el archivo de tareas: " + e.getMessage());
         }
     }
 
-    /**
-     * Lee un archivo de texto y reconstruye la lista de objetos Tarea.
-     */
-    public static ArrayList<Tarea> cargarTareas(String rutaArchivo) {
-        ArrayList<Tarea> tareasCargadas = new ArrayList<>();
+    public List<Tarea> cargarTareas(String nombreArchivo) {
+        List<Tarea> tareasCargadas = new ArrayList<>();
+        File archivo = new File(CARPETA_DATOS, nombreArchivo);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
+        if (!archivo.exists()) {
+            System.out.println("i No se encontró el archivo de tareas (" + archivo.getAbsolutePath() + ")");
+            return tareasCargadas;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 if (linea.trim().isEmpty()) continue;
 
-                String[] datos = linea.split(",");
+                // Cambiado a punto y coma (;) para coincidir con el guardado
+                String[] datos = linea.split(";");
                 if (datos.length >= 6) {
-                    int id = Integer.parseInt(datos[0].trim());
-                    String titulo = datos[1].trim();
-                    int prioridad = Integer.parseInt(datos[2].trim());
-                    String fechaEntrega = datos[3].trim();
-                    double tiempoEstimado = Double.parseDouble(datos[4].trim());
-                    String departamento = datos[5].trim();
+                    try {
+                        int id = Integer.parseInt(datos[0].trim());
+                        String titulo = datos[1].trim();
+                        int prioridad = Integer.parseInt(datos[2].trim());
+                        String fechaEntrega = datos[3].trim();
+                        double tiempoEstimado = Double.parseDouble(datos[4].trim());
+                        String departamento = datos[5].trim();
 
-                    Tarea tarea = new Tarea(id, titulo, prioridad, fechaEntrega, tiempoEstimado, departamento);
-                    tareasCargadas.add(tarea);
+                        Tarea tarea = new Tarea(id, titulo, prioridad, fechaEntrega, tiempoEstimado, departamento);
+                        tareasCargadas.add(tarea);
+                    } catch (NumberFormatException ex) {
+                        System.out.println("Línea de tarea ignorada (error numérico): " + linea);
+                    }
                 }
             }
             System.out.println("✓ Tareas cargadas desde archivo: " + tareasCargadas.size());
         } catch (IOException e) {
-            System.out.println("i No se encontró el archivo de tareas (" + rutaArchivo + ")");
-        } catch (Exception e) {
-            System.out.println("X Error al procesar el formato del archivo de tareas");
+            System.out.println("X Error al leer el archivo de tareas: " + e.getMessage());
         }
 
         return tareasCargadas;
     }
 
     // =========================================================================
-    // 2. GESTIÓN DE EMPLEADOS (Persistencia en archivo .txt / .csv)
+    // 2. GESTIÓN DE EMPLEADOS
     // =========================================================================
-
-    /**
-     * Guarda la lista de empleados en un archivo de texto en formato CSV:
-     * id,nombre,departamento
-     */
-    private static final String CARPETA_DATOS = "data";
 
     public void guardarEmpleados(String nombreArchivo, List<Empleado> empleados) {
         File carpeta = new File(CARPETA_DATOS);
         if (!carpeta.exists()) {
-            carpeta.mkdirs(); // crea la carpeta si no existe
+            carpeta.mkdirs(); 
         }
 
         File archivo = new File(carpeta, nombreArchivo);
@@ -102,7 +113,7 @@ public class GestorArchivos {
             }
             System.out.println(empleados.size() + " empleado(s) guardado(s) en " + archivo.getAbsolutePath());
         } catch (IOException e) {
-            System.out.println("Error al guardar: " + e.getMessage());
+            System.out.println("Error al guardar empleados: " + e.getMessage());
         }
     }
 
@@ -134,7 +145,7 @@ public class GestorArchivos {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error al cargar: " + e.getMessage());
+            System.out.println("Error al cargar empleados: " + e.getMessage());
         }
         return lista;
     }

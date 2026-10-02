@@ -18,8 +18,8 @@ public class ColaPrioridad {
         // 1. Prioridad: menor valor int = mayor urgencia (1 es la más urgente)
         // 2. Fecha de entrega: la fecha más antigua/próxima va primero
         Comparator<Tarea> comparadorTareas = (t1, t2) -> {
-            int compPrioridad = Integer.compare(t1.getPrioridad(), t2.getPrioridad());
-            if (compPrioridad != 0) {
+        int compPrioridad = Integer.compare(t2.getPrioridad(), t1.getPrioridad());            
+        if (compPrioridad != 0) {
                 return compPrioridad; // Si las prioridades son distintas, define el orden
             }
             // Desempate por fecha de entrega

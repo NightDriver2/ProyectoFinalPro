@@ -11,6 +11,7 @@ public class Tarea implements Comparable<Tarea>{
     double tiempoEstimado;
     String departamento;
     List<Integer> dependencias;
+    Empleado empleadoAsignado; // <-- Atributo para almacenar al empleado asignado
 
     public Tarea(int id, String titulo, int prioridad, String fechaEntrega, double tiempoEstimado, String departamento) { 
         this.id = id; 
@@ -20,15 +21,25 @@ public class Tarea implements Comparable<Tarea>{
         this.tiempoEstimado = tiempoEstimado; 
         this.departamento = departamento; 
         this.dependencias = new ArrayList<>(); 
+        this.empleadoAsignado = null; // Inicialmente sin asignar
     }
 
-    // ------------------Para ver lo de las dependencias ------------------
+    // ------------------ Para ver lo de las dependencias ------------------
     public void agregarDependencia(int idTareaPrevia) { 
         this.dependencias.add(idTareaPrevia); 
     } 
     
     public List<Integer> getDependencias() {
         return dependencias;
+    }
+
+    // ------------------ Getters y Setters de Empleado Asignado ------------------
+    public Empleado getEmpleadoAsignado() {
+        return empleadoAsignado;
+    }
+
+    public void setEmpleadoAsignado(Empleado empleadoAsignado) {
+        this.empleadoAsignado = empleadoAsignado;
     }
 
     // ------------------ Getters ------------------
@@ -70,13 +81,16 @@ public class Tarea implements Comparable<Tarea>{
     
     @Override 
     public String toString() { 
-        return "\n ------ Tarea ------" +
+        String infoEmpleado = (empleadoAsignado != null) ? empleadoAsignado.getNombre() + " (ID: " + empleadoAsignado.getId() + ")" : "Ninguno";
+        
+        return "\n ------------------------ Tarea ------------------------\n" +
             "[" + id + "] " 
             + titulo 
             + " | Prioridad: " + prioridad 
             + " | Entrega: " + fechaEntrega 
             + " | Horas: " + tiempoEstimado 
             + " | Depto: " + departamento
-            + "\n ---------------------"; 
+            + " | Asignada a: " + infoEmpleado
+            + "\n ---------------------------------------------"; 
     }
 }

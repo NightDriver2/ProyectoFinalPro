@@ -47,13 +47,13 @@ public class GestorHash {
             return;
         }
 
-        System.out.println("\\n---- TABLA HASH DE TAREAS (Total: " + mapaTareas.size() + ") ----");
+        System.out.println("\n---------------- TABLA HASH DE TAREAS (Total: " + mapaTareas.size() + ") ---------------- \n");
         for(Entry<Integer, Tarea> entry : mapaTareas.entrySet()) {
             System.out.println("[ID: " + entry.getKey() + "] " + entry.getValue());
         }
     }
 
-    // ------------------ HashMap para acomodar las empleados lol ------------------
+    // ------------------ HashMap para acomodar los empleados lol ------------------
     public void guardarEmpleado(Empleado empleado) { 
         if (empleado == null) return; 
 
@@ -72,7 +72,7 @@ public class GestorHash {
     public boolean eliminarEmpleado(int id) {
         if(mapaEmpleados.containsKey(id)) {
             mapaEmpleados.remove(id);
-            System.out.println("Empleado #" + id + " fue eliminada exitosamente");
+            System.out.println("Empleado #" + id + " fue eliminado exitosamente");
             return true;
         }
 
@@ -86,7 +86,7 @@ public class GestorHash {
             return;
         }
 
-        System.out.println("\\n---- TABLA HASH DE EMPLEADOS (Total: " + mapaEmpleados.size() + ") ----");
+        System.out.println("\n---- TABLA HASH DE EMPLEADOS (Total: " + mapaEmpleados.size() + ") ----");
         for(Entry<Integer, Empleado> entry : mapaEmpleados.entrySet()) {
             System.out.println("[ID: " + entry.getKey() + "] " + entry.getValue());
         }
